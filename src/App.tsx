@@ -1,7 +1,7 @@
 import {useForm} from 'react-hook-form';
 import {yupResolver} from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import Input from './components/Input';
+import BaseInput from './components/BaseInput';
 
 interface LoginForm {
 	email: string;
@@ -25,7 +25,6 @@ const loginFormValidation = yup.object({
 const App = () => {
 	const {
 		register,
-		getValues,
 		handleSubmit,
 		formState: {errors},
 	} = useForm<LoginForm>({
@@ -43,22 +42,12 @@ const App = () => {
 	return (
 		<main>
 			<form method='post' onSubmit={handleSubmit(successCallback)}>
-				{/* <label htmlFor='email'>
-					<input {...email} />
-					<p>{errors.email && errors.email.message}</p>
-				</label> */}
-				<Input
-					value={''}
-					type={'text'}
-					placeholder={'이메일'}
-					errorMsg={errors.email && errors.email.message}
-					{...email}
+				<BaseInput {...email} errorMsg={errors.email && errors.email.message} />
+				<BaseInput
+					{...password}
+					errorMsg={errors.password && errors.password.message}
 				/>
-				<label htmlFor='password'>
-					<input value={getValues('password')} {...password} />
-					<p>{errors.password && errors.password.message}</p>
-				</label>
-				<button type='submit'>제출</button>
+				<button>제출</button>
 			</form>
 		</main>
 	);
